@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   FSP Catalyst Connect 3.0 — design tokens
+
+   Palette is taken directly from the FSP Catalyst Connect logo:
+     navy  #0F1940   amber #FAA81C
+   Deep-navy canvas, warm white type, amber accent.
+   =========================================================================== */
+@theme {
+  /* surfaces — navy canvas, darkened from the logo's #0F1940 */
+  --color-ink: #080d20;
+  --color-ink-deep: #050916;
+  --color-surface: #0e1430;
+  --color-surface-2: #141b3c;
+  --color-surface-3: #1c2450;
+
+  /* the logo navy itself, for type sitting on amber */
+  --color-navy: #0f1940;
+
+  /* lines */
+  --color-line: #ffffff17;
+  --color-line-strong: #ffffff2b;
+
+  /* warm white type */
+  --color-cream: #f7f3ed;
+  --color-cream-dim: #aeb4c8;
+  --color-cream-faint: #9ba4bf;
+
+  /* amber accent, straight from the logo */
+  --color-accent: #faa81c;
+  --color-accent-bright: #ffc14d;
+  --color-accent-deep: #d4870a;
+  --color-accent-tint: #faa81c1a;
+  /* amber is a light colour — type on top of it must be navy, never white */
+  --color-on-accent: #0f1940;
+
+  /* type */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  /* Keep supporting text readable across mobile and desktop. */
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: clamp(1rem, .95rem + .2vw, 1.125rem);
+  --text-sm--line-height: 1.6;
+
+  /* editorial display scale (fluid) */
+  --text-display: clamp(2.5rem, 1.2rem + 4.8vw, 5.75rem);
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.04em;
+
+  --text-headline: clamp(1.875rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-headline--line-height: 1.12;
+  --text-headline--letter-spacing: -0.035em;
+
+  --text-title: clamp(1.5rem, 2.6vw, 2.25rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.025em;
+
+  /* motion */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --------------------------------------------------------------- base --- */
+html {
+  scroll-behavior: smooth;
+  /* keeps anchored sections clear of the fixed header */
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* no horizontal overflow on any breakpoint */
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* visible, consistent focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* headings stay optically balanced at large sizes */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* A shared hierarchy for every section and viewport. */
+.type-body {
+  font-size: clamp(1rem, .94rem + .2vw, 1.125rem);
+  line-height: 1.7;
+}
+
+.type-small {
+  font-size: clamp(1rem, .95rem + .2vw, 1.125rem);
+  line-height: 1.65;
+}
+
+.type-card-title {
+  font-size: clamp(1.0625rem, .98rem + .3vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -.015em;
+}
+
+.type-role {
+  font-size: clamp(1rem, .95rem + .2vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.type-stat {
+  font-size: clamp(1.875rem, 1.35rem + 2vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.page-panel :where(h1, h2, h3, p, dd, dt) {
+  overflow-wrap: break-word;
+}
+
+.page-panel :where(.grid > *, .flex > *) {
+  min-width: 0;
+}
+
+/* ----------------------------------------------------------- utilities --- */
+
+/* editorial italic emphasis inside a headline */
+.accent-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+/* hairline grain so the flat black reads as paper rather than a void */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* soft lighting pool used behind hero and CTA blocks */
+.glow-accent {
+  background-image: radial-gradient(
+    ellipse at center,
+    color-mix(in oklab, var(--color-accent) 26%, transparent),
+    transparent 68%
+  );
+}
+
+/* Shared atmospheric canvas, with alternating light across the whole page. */
+.page-panel {
+  --panel-light-x: 5%;
+  --panel-cool-x: 95%;
+}
+
+.page-panel:nth-of-type(even) {
+  --panel-light-x: 95%;
+  --panel-cool-x: 5%;
+}
+
+.page-backdrop {
+  background-image:
+    radial-gradient(ellipse at var(--panel-light-x) 25%, #faa81c10, transparent 50%),
+    radial-gradient(ellipse at var(--panel-cool-x) 70%, #8064e81a, transparent 55%),
+    linear-gradient(150deg, #101831b3, #080d2040 55%, #10172a80);
+}
+
+.page-backdrop-grid {
+  background-image: linear-gradient(#cbd5e107 1px, transparent 1px),
+    linear-gradient(90deg, #cbd5e107 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(transparent, #000 30%, #000 65%, transparent);
+}
+
+.page-backdrop-ring {
+  width: 640px;
+  height: 640px;
+  right: -280px;
+  top: -300px;
+  border: 1px solid #faa81c13;
+}
+
+.page-backdrop-ring-inner {
+  width: 510px;
+  height: 510px;
+  right: -215px;
+  top: -235px;
+}
+
+.page-panel:nth-of-type(even) .page-backdrop-ring {
+  right: auto;
+  left: -280px;
+  top: auto;
+  bottom: -300px;
+  border-color: #b2a2ff17;
+}
+
+.page-panel:nth-of-type(even) .page-backdrop-ring-inner {
+  left: -215px;
+  bottom: -235px;
+}
+
+@media (max-width: 640px) {
+  .page-backdrop-grid {
+    background-size: 48px 48px;
+    opacity: .6;
+  }
+}
+
+/* Continuous section divider: two equal groups make the loop seamless. */
+.section-ticker-track {
+  animation: section-ticker-scroll 24s linear infinite reverse;
+}
+
+@keyframes section-ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-ticker {
+    overflow-x: auto;
+  }
+
+  .section-ticker-track {
+    animation: none;
+  }
+
+  .section-ticker-track > [aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------- reduced motion --- */
+/* Content must be fully visible and usable when motion is switched off.
+   Reveal components also check this preference in JS. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Content stays visible with JavaScript disabled and reduced motion enabled. */
+.reveal-content { animation: content-arrive .55s ease-out; }
+@keyframes content-arrive { from { opacity: .65; transform: translateY(min(var(--reveal-y, 16px), 16px)); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .reveal-content { animation: none !important; } }
