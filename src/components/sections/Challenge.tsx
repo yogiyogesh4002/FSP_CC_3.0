@@ -46,12 +46,12 @@ export function Challenge() {
                 id="challenge-heading"
                 className="mt-6 text-[length:var(--text-headline)] leading-[var(--text-headline--line-height)] font-semibold tracking-[var(--text-headline--letter-spacing)]"
               >
-                Being a Trainer Can Feel Like a{" "}
-                <span className="accent-serif text-accent">Solo Journey.</span>
+                Growing as a Trainer Should Not Be a{" "}
+                <span className="accent-serif text-accent">Solo Journey</span>
               </h2>
             </Reveal>
             <div className="mt-7 space-y-5">
-              {challenge.body.slice(0, 2).map((paragraph, i) => (
+              {challenge.body.map((paragraph, i) => (
                 <Reveal key={paragraph} delay={0.12 + i * 0.06}>
                   <p className="text-cream-dim type-body">{paragraph}</p>
                 </Reveal>
@@ -60,16 +60,6 @@ export function Challenge() {
           </div>
 
           <div className="max-w-xl lg:pt-1">
-            <div className="space-y-5">
-              {challenge.body.slice(2).map((paragraph, i) => (
-                <Reveal key={i} delay={i * 0.06}>
-                  <p className="text-cream-dim type-body">
-                    {paragraph}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-
             <ul className="mt-7 space-y-3">
               {challenge.points.map((point, i) => (
                 <Reveal as="li" key={point.title} delay={i * 0.08}>

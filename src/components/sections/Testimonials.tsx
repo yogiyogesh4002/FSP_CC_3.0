@@ -38,8 +38,7 @@ export function Testimonials() {
 
           <Reveal delay={0.12}>
             <p className="text-cream-dim type-body mt-6">
-              Short films from participants of the previous edition, in their
-              own words. Nothing starts playing until you press play.
+              Hear directly from participants of our previous edition about their experiences, key learnings, and connections made at FSP Catalyst Connect.
             </p>
           </Reveal>
         </div>

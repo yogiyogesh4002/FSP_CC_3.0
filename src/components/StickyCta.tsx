@@ -19,7 +19,7 @@ export function StickyCta() {
       const past = window.scrollY > window.innerHeight * 0.85;
 
       // Keep the payment form and final CTA clear on small screens.
-      const overlapping = ["register", "registration"].some((id) => {
+      const overlapping = ["register", "registration", "site-footer"].some((id) => {
         const section = document.getElementById(id);
         if (!section) return false;
         const rect = section.getBoundingClientRect();

@@ -1,8 +1,7 @@
-import { CalendarDays, Clock, MapPin, Ticket } from "lucide-react";
-import { event, registration, TODO_CONFIRM } from "@/config/site";
+import { CalendarDays, CheckCircle2, Clock, MapPin, Ticket } from "lucide-react";
+import { event, TODO_CONFIRM } from "@/config/site";
 import { Container, Eyebrow, Section } from "../ui/Section";
 import { Reveal } from "../ui/Reveal";
-import { RegisterCta } from "../ui/Cta";
 
 /**
  * Unconfirmed values (venue, timings) are shown as "to be confirmed" rather
@@ -68,29 +67,32 @@ export function EventInfo() {
                 </h2>
               </Reveal>
               <Reveal delay={0.12}>
-                <div className="mt-8">
-                  {registration.isPlaceholder ? (
-                    <div className="border-accent/20 bg-accent/5 rounded-2xl border p-5">
-                      <p className="text-accent type-card-title">Registration opens soon</p>
-                      <p className="text-cream-dim mt-2 type-small">The registration link will be shared here when it is ready.</p>
-                    </div>
-                  ) : <RegisterCta />}
-                </div>
+                <p className="text-cream-dim mt-6 type-body">
+                  A day to learn from experienced trainers, exchange practical ideas, and connect with people who understand your journey.
+                </p>
+                <ul className="mt-6 space-y-4">
+                  {["Learn from experienced trainers", "Share real experiences with your peers", "Build meaningful professional connections"].map(benefit => (
+                    <li key={benefit} className="text-cream flex items-start gap-3 text-base leading-relaxed">
+                      <CheckCircle2 aria-hidden="true" className="text-accent mt-1 size-5 shrink-0" />
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
               </Reveal>
             </div>
 
             <dl className="space-y-px">
               {rows.map((row, i) => (
                 <Reveal key={row.label} delay={i * 0.07}>
-                  <div className="border-line flex items-start gap-5 border-t py-6">
+                  <div className="border-line flex items-start gap-4 border-t py-5">
                     <span className="border-line bg-ink/40 text-accent mt-0.5 grid size-10 shrink-0 place-items-center rounded-xl border">
                       <row.icon aria-hidden="true" className="size-4" />
                     </span>
                     <div className="min-w-0">
-                      <dt className="text-cream-faint text-xs font-semibold tracking-[0.16em] uppercase">
+                      <dt className="text-cream-faint text-[13px] leading-5 font-semibold tracking-[0.12em] uppercase">
                         {row.label}
                       </dt>
-                      <dd className="text-cream mt-1.5 text-lg font-medium">
+                      <dd className="text-cream mt-1 text-[16px] leading-6 font-medium">
                         {row.time ? (
                           <time dateTime={row.time}>{row.value}</time>
                         ) : (
@@ -98,7 +100,7 @@ export function EventInfo() {
                         )}
                       </dd>
                       {row.note && (
-                        <p className="text-cream-faint mt-1 text-sm">
+                        <p className="text-cream-faint mt-1 text-[14px] leading-[1.6]">
                           {row.note}
                         </p>
                       )}

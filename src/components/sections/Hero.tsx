@@ -1,9 +1,9 @@
 import { Backdrop } from "../ui/Backdrop";
-import { CalendarDays, MapPin, Sparkles } from "lucide-react";
-import { brand, event, registration } from "@/config/site";
+import { CalendarDays, MapPin } from "lucide-react";
+import { brand, event, heroContent, registration } from "@/config/site";
 import { Container } from "../ui/Section";
 import { Reveal } from "../ui/Reveal";
-import { AnchorCta, RegisterCta } from "../ui/Cta";
+import { RegisterCta } from "../ui/Cta";
 import { VideoEmbed } from "../ui/VideoEmbed";
 import { HeroAccent } from "../ui/HeroAccent";
 
@@ -25,11 +25,7 @@ export function Hero() {
         <div className="flex flex-col items-center text-center">
           {/* ------------------------------------------------- eyebrow --- */}
           <Reveal>
-            <p className="border-line-strong bg-surface/70 text-cream inline-flex items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-semibold tracking-[0.14em] uppercase backdrop-blur-sm sm:gap-3 sm:px-7 sm:py-3.5 sm:text-base lg:text-lg">
-              <Sparkles
-                aria-hidden="true"
-                className="text-accent size-4 shrink-0 sm:size-5"
-              />
+            <p className="border-line-strong bg-surface/70 text-cream inline-block max-w-full rounded-full border px-6 py-4 text-lg font-bold tracking-[0.1em] uppercase backdrop-blur-sm sm:px-10 sm:py-5 sm:text-xl lg:text-2xl">
               {brand.eventFull}
             </p>
           </Reveal>
@@ -56,13 +52,13 @@ export function Hero() {
           {/* -------------------------------------------------- tagline --- */}
           <Reveal delay={0.22}>
             <p className="text-cream mt-10 text-lg font-medium sm:mt-12 sm:text-xl">
-              {brand.tagline}
+              {heroContent.tagline}
             </p>
           </Reveal>
 
           <Reveal delay={0.26}>
             <p className="text-cream-dim mt-4 max-w-2xl type-body text-balance">
-              {brand.description}
+              {heroContent.introduction}
             </p>
           </Reveal>
 
@@ -94,7 +90,6 @@ export function Hero() {
           <Reveal delay={0.34}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <RegisterCta />
-              <AnchorCta href="#experience" label={registration.ctaSecondary} />
             </div>
             {registration.isPlaceholder && (
               <p className="text-cream-faint mt-3 text-xs">

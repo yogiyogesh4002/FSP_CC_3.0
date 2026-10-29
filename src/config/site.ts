@@ -46,6 +46,13 @@ export const brand = {
   },
 } as const;
 
+/** Hero-only copy; shared footer and metadata content stay unchanged. */
+export const heroContent = {
+  tagline: "Learn. Lead. Impact.",
+  introduction:
+    "FSP Catalyst Connect brings trainers, facilitators, and coaches together to learn from experienced trainers, share experiences, and discover new opportunities to grow together.",
+} as const;
+
 /* -------------------------------------------------------------- event ---- */
 export const event = {
   /** Machine-readable date, used for <time> and structured data. */
@@ -196,8 +203,8 @@ export const registration = {
  */
 export const speaker = {
   name: "Prakash Sharma",
-  role: "Leadership Coach",
-  organisation: "Bija Training Pvt. Ltd.",
+  role: "Strategic Leadership Trainer | Executive Coach | Author",
+  organisation: "BIJA Training Pvt. Ltd.",
   /**
    * TODO_CONFIRM — PROVENANCE.
    *
@@ -217,8 +224,16 @@ export const speaker = {
   portrait: "/speakers/prakash-sharma.jpg" as string | null,
   portraitWidth: 864,
   portraitHeight: 1184,
-  intro:
-    "Prakash Sharma joins Catalyst Connect 3.0 as our special guest. He works as a Leadership Coach with Bija Training Pvt. Ltd., and will be spending the session in conversation with the FSP community.",
+  highlights: [
+    { value: "20+", label: "Years of Experience" },
+    { value: "1,000+", label: "Leaders Coached" },
+    { value: "100+", label: "Organisations" },
+  ],
+  biography: [
+    "Prakash Sharma is a Strategic Leadership Trainer, Executive Coach, and author with more than 20 years of experience developing corporate leaders and high-performance teams across India and internationally.",
+    "He is a Marshall Goldsmith Certified Executive Coach, an NFNLP-certified NLP Practitioner from Florida, USA, and DiSC-certified through Thomas Assessments. He holds a postgraduate qualification in management from Pune University.",
+    "His expertise includes leadership development, executive coaching, behavioural assessments, experiential learning, and Train the Trainer programmes. He is the author of The MASK Leadership and founder of the Leaders Connect community.",
+  ],
   /** TODO_CONFIRM — session title / topic not announced. */
   sessionTitle: TODO_CONFIRM,
 } as const;
@@ -281,6 +296,64 @@ export const panelDiscussionLeader = {
 } as const;
 
 /* ------------------------------------------------------- past edition ---- */
+/** Concise display profiles for the four-card speaker row. Portraits are reused unchanged. */
+export const speakerCards = [
+  {
+    id: "speaker",
+    name: speaker.name,
+    portrait: speaker.portrait,
+    portraitWidth: speaker.portraitWidth,
+    portraitHeight: speaker.portraitHeight,
+    designation: "Special Guest",
+    company: "Founder, BIJA Training Pvt. Ltd.",
+    professionalProfile: null,
+    experience: "20+ years in leadership development and executive coaching.",
+    expertise: "Strategic leadership, executive coaching, behavioural assessments, and leadership development.",
+    credibility: "Author of The MASK Leadership and founder of the Leaders Connect community.",
+  },
+  {
+    id: "karunai-prakash",
+    name: karunaiPrakash.name,
+    portrait: karunaiPrakash.portrait,
+    portraitWidth: karunaiPrakash.portraitWidth,
+    portraitHeight: karunaiPrakash.portraitHeight,
+    designation: null,
+    company: "Founder, Key Purpose Training Solutions",
+    professionalProfile: null,
+    experience: "10+ years as a professional trainer, 600+ team building and Outbound Training programs, including 3 international programs.",
+    expertise: "Team building, employee engagement, experiential learning, leadership training, and Train the Trainer programs.",
+    credibility: "Certified in experiential learning by IIPE, Canada, and NLP Master Practitioner.",
+  },
+  {
+    id: "panel-discussion-leader",
+    name: panelDiscussionLeader.name,
+    portrait: panelDiscussionLeader.portrait,
+    portraitWidth: panelDiscussionLeader.portraitWidth,
+    portraitHeight: panelDiscussionLeader.portraitHeight,
+    designation: "Panel Discussion Leader",
+    company: "Founder, Just Bee Wellbeing Services",
+    professionalProfile: null,
+    experience: "7+ years in psychology, with 2,500+ therapy sessions and counselling sessions.",
+    expertise: "Counselling psychology, wellbeing, experiential learning, and facilitation.",
+    credibility: "Certified in experiential learning by IIPE, Canada.",
+  },
+  {
+    id: "priya-ramasamy",
+    name: priyaRamasamy.name,
+    portrait: priyaRamasamy.portrait,
+    portraitWidth: priyaRamasamy.portraitWidth,
+    portraitHeight: priyaRamasamy.portraitHeight,
+    designation: "Guest Speaker",
+    company: null,
+    professionalProfile: "Emcee, Soft Skills Trainer, and Public Speaking Coach.",
+    experience: "10+ years in public speaking, 250+ events hosted, and 5,000+ people trained.",
+    expertise: "Public speaking, communication skills, soft skills training, emceeing, and presentation.",
+    credibility: null,
+  },
+] as const;
+
+export type SpeakerCardProfile = (typeof speakerCards)[number];
+
 /**
  * The 60+ figure belongs to the August 2026 edition only.
  * Do not reuse it as a projection for 3.0.
@@ -327,7 +400,6 @@ export const pastEdition = {
 export const navLinks = [
   { label: "The Challenge", href: "#challenge" },
   { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
   { label: "Speaker", href: "#speaker" },
   { label: "Event Info", href: "#event-information" },
   { label: "FAQ", href: "#faq" },
@@ -351,45 +423,45 @@ export const communityPhoto = {
 /* ---------------------------------------------------------- section 2 ---- */
 export const challenge = {
   eyebrow: "The Challenge",
-  headline: "Being a Trainer Can Feel Like a Solo Journey.",
+  headline: "Growing as a Trainer Should Not Be a Solo Journey",
   body: [
-    "You design the session alone. You deliver it alone. You drive home and replay the room in your head — alone.",
-    "There is no team debrief, no corridor conversation, no one who instinctively understands why a particular activity landed flat or why that one quiet participant mattered more than the rest.",
-    "Growth in this profession rarely arrives from another certificate. It arrives from the people who understand the work, who ask the sharper question and who have already stood where you are standing.",
+    "As trainers, we help others grow. But who helps us move forward?",
+    "Finding corporate clients, getting honest feedback, and learning from experienced trainers can be challenging when you are growing alone.",
+    "The right community can help you gain new perspectives, build meaningful connections, and discover new opportunities.",
   ],
   points: [
     {
-      title: "Few people to think out loud with",
-      body: "Independent trainers often have no peer group to test ideas against before a session goes live.",
+      title: "You Grow Alone",
+      body: "No experienced peer to challenge your ideas or help you think differently.",
     },
     {
-      title: "Feedback is hard to come by",
-      body: "Client feedback tells you whether they were happy. It rarely tells you how to get better.",
+      title: "You Don't Know What to Improve",
+      body: "Client appreciation feels good. Honest feedback helps you get better.",
     },
     {
-      title: "The craft keeps moving",
-      body: "Formats, expectations and room dynamics shift. Staying current alone takes a great deal of energy.",
+      title: "You Struggle to Stay Ahead",
+      body: "Without continuous learning, fresh ideas and new opportunities can be harder to find.",
     },
-  ],
-} as const;
+  ],} as const;
 
 /* ---------------------------------------------------------- section 3 ---- */
 export const about = {
   eyebrow: "About Catalyst Connect",
   headline: "More Than a Meetup. A Community That Moves You Forward.",
   body: [
-    "Catalyst Connect brings facilitators into the same room for a day built around learning from each other rather than being talked at.",
-    "It is part peer learning, part knowledge sharing, part the kind of unhurried conversation that turns a contact into a collaborator. People arrive with questions from their own practice and leave with perspectives they could not have reached on their own.",
+    "FSP Catalyst Connect 3.0 brings facilitators together for a day of learning, fresh perspectives, and meaningful conversations.",
+    "Learn from a corporate expert, take part in an engaging activity, and exchange real experiences with fellow trainers.",
+    "Come with questions from your own practice. Leave with ideas you can apply, perspectives you may not have considered, and connections that could grow into collaborations.",
   ],
   photo: {
     ...communityPhoto,
     caption: "Catalyst Connect — the room in conversation.",
   },
   pillars: [
-    "Learning together",
-    "Knowledge sharing",
-    "Meaningful relationships",
-    "Potential collaboration",
+    "Learning Together",
+    "Meaningful Relationships",
+    "Potential Collaboration",
+    "Expert Insights",
   ],
 } as const;
 

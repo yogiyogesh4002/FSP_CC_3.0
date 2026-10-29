@@ -30,17 +30,19 @@ export function Section({
   children,
   className = "",
   labelledBy,
+  compact = false,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
   labelledBy?: string;
+  compact?: boolean;
 }) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`page-panel relative isolate py-16 sm:py-20 lg:py-24 ${className}`}
+      className={`page-panel relative isolate ${compact ? "py-8" : "py-16 sm:py-20 lg:py-24"} ${className}`}
     >
       <Backdrop />
       {children}

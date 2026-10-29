@@ -1,138 +1,67 @@
 import Image from "next/image";
-import { speaker as specialGuest, panelDiscussionLeader, karunaiPrakash, priyaRamasamy, TODO_CONFIRM } from "@/config/site";
-import { Container, Eyebrow, Section } from "../ui/Section";
+import type { SpeakerCardProfile } from "@/config/site";
 import { Reveal } from "../ui/Reveal";
 import { PhotoPlaceholder } from "../ui/PhotoPlaceholder";
 
-/**
- * Only the name, role and organisation supplied in the brief appear here.
- * No credentials, achievements or session title are invented — if
- * `speaker.sessionTitle` is still TODO_CONFIRM, nothing is shown in its place.
- */
-export function Speaker({ panelLeader = false, karunai = false, guest = false }: { panelLeader?: boolean; karunai?: boolean; guest?: boolean }) {
-  const speaker = guest ? priyaRamasamy : karunai ? karunaiPrakash : panelLeader ? panelDiscussionLeader : specialGuest;
-  const profile = guest ? priyaRamasamy : karunai ? karunaiPrakash : panelDiscussionLeader;
-  const sectionId = guest ? "priya-ramasamy" : karunai ? "karunai-prakash" : panelLeader ? "panel-discussion-leader" : "speaker";
-  const headingId = `${sectionId}-heading`;
-  const specialties = "team building, employee engagement, outbound leadership training, and Train the Trainer programs";
-  const hasPortrait = speaker.portrait !== null;
-  const hasSessionTitle = !panelLeader && !karunai && !guest && specialGuest.sessionTitle !== TODO_CONFIRM;
+/** Highlight a few key facts without oversized statistic counters. */
+function HighlightedText({ text }: { text: string }) {
+  const parts = text.split(/(20\+|10\+|600\+|3 international programs|7\+|2,500\+|200\+|250\+|5,000\+|The MASK Leadership|IIPE, Canada|NLP Master Practitioner)/g);
+  return parts.map((part, index) => index % 2 === 1
+    ? <strong key={index} className="text-accent font-semibold">{part}</strong>
+    : part);
+}
 
+export function Speaker({ profile }: { profile: SpeakerCardProfile }) {
+  const headingId = `${profile.id}-heading`;
+  const isSpecialGuest = profile.id === "speaker";
+  const badge = isSpecialGuest ? "Special Guest" : profile.id === "karunai-prakash" ? "Founder" : profile.id === "panel-discussion-leader" ? "Panel Discussion Leader" : profile.id === "priya-ramasamy" ? "Guest Speaker" : null;
   return (
-    <Section id={sectionId} labelledBy={headingId} className="bg-surface/40 overflow-hidden">
-      <Container size="wide">
-        <div className={`grid gap-12 ${karunai || panelLeader || guest ? "lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-14" : "lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-20"}`}>
-          <Reveal y={32}>
-            <div className="relative">
-              {hasPortrait ? (
-                <Image
-                  src={speaker.portrait!}
-                  alt={`${speaker.name}, ${speaker.role}${speaker.organisation ? ` at ${speaker.organisation}` : ""}`}
-                  width={speaker.portraitWidth}
-                  height={speaker.portraitHeight}
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 100vw, 420px"
-                  /* natural aspect ratio — no object-cover, so nothing in the
-                     frame gets cropped away */
-                  className={`border-line-strong mx-auto h-auto w-full ${karunai || panelLeader || guest ? "max-w-[340px] lg:max-w-[440px]" : "max-w-[380px]"} rounded-2xl border shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] sm:rounded-3xl`}
-                />
-              ) : (
-                <PhotoPlaceholder
-                  caption={`Portrait — ${speaker.name}`}
-                  ratio={panelLeader ? `${speaker.portraitWidth} / ${speaker.portraitHeight}` : "4 / 5"}
-                />
-              )}
-              <div
-                aria-hidden="true"
-                className="glow-accent pointer-events-none absolute -inset-10 -z-10 opacity-40"
-              />
-            </div>
-          </Reveal>
-
-          <div>
-            <Reveal>
-              <Eyebrow>{guest ? "Guest Speaker" : karunai ? "Founder" : panelLeader ? "Panel Discussion Leader" : "Special Guest"}</Eyebrow>
-            </Reveal>
-
-            <Reveal delay={0.06}>
-              <h2
-                id={headingId}
-                className="mt-6 type-speaker-name leading-[var(--text-headline--line-height)] font-semibold tracking-[var(--text-headline--letter-spacing)]"
-              >
-                {speaker.name}
-              </h2>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <p className="text-accent mt-4 type-role">
-                {speaker.role}
-                {speaker.organisation && (
-                  <>
-                    <span className="text-cream-faint mx-2.5" aria-hidden="true">
-                      /
-                    </span>
-                    <span className="text-cream-dim">{speaker.organisation}</span>
-                  </>
-                )}
-              </p>
-            </Reveal>
-
-            {panelLeader || karunai || guest ? (
-              <>
-                <Reveal delay={0.16}>
-                  <div className="border-line mt-7 border-t pt-6">
-                    <h3 className="text-cream text-sm font-medium">Career Highlights</h3>
-                    {karunai || guest ? (
-                      <dl className="mt-4 grid grid-cols-3 gap-3 sm:gap-5">
-                        {(guest ? priyaRamasamy : karunaiPrakash).highlights.map((highlight) => (
-                          <div key={highlight.label} className="flex flex-col">
-                            <dt className="text-cream-dim order-2 mt-2 type-small">{highlight.label}</dt>
-                            <dd className="text-accent type-stat">{highlight.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : <div className="mt-4 flex flex-wrap items-end gap-5">
-                      <p className="text-accent type-stat">
-                        {panelDiscussionLeader.careerHighlight}
-                      </p>
-                      <p className="text-cream-dim pb-2 text-sm leading-snug">
-                        {panelDiscussionLeader.careerHighlightLabel}
-                      </p>
-                    </div>}
-                  </div>
-                </Reveal>
-                {profile.biography.map((paragraph, index) => (
-                  <Reveal key={paragraph} delay={0.2 + index * 0.04}>
-                    <p className="text-cream-dim mt-5 max-w-xl type-body">
-                      {karunai && paragraph.includes(specialties) ? (
-                        <>
-                          <span className="text-cream mb-2 block text-sm font-semibold tracking-wide">Core Expertise</span>
-                          <strong className="text-accent font-semibold">Team Building, Employee Engagement, Outbound Leadership Training, and Train the Trainer Programs</strong>
-                          {paragraph.split(specialties)[1]}
-                        </>
-                      ) : paragraph}
-                    </p>
-                  </Reveal>
-                ))}
-              </>
-            ) : (
-              <Reveal delay={0.16}>
-                <p className="text-cream-dim mt-7 max-w-xl type-body">
-                  {specialGuest.intro}
-                </p>
-              </Reveal>
-            )}
-
-            {hasSessionTitle && (
-              <Reveal delay={0.2}>
-                <p className="border-line text-cream mt-7 border-l-2 pl-5 text-base">
-                  {specialGuest.sessionTitle}
-                </p>
-              </Reveal>
-            )}
-          </div>
+    <article id={profile.id} aria-labelledby={headingId} className="border-line bg-surface/60 row-span-5 grid min-w-0 grid-rows-subgrid gap-y-0 rounded-3xl border p-5 lg:p-4">
+      <Reveal y={16}>
+        <div className={isSpecialGuest ? "border-accent/30 bg-ink/40 relative rounded-2xl border" : "border-line bg-ink/40 relative rounded-2xl border"}>
+          {badge && (
+            <span className="bg-accent text-on-accent absolute -top-3 left-1/2 z-10 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] leading-4 font-bold tracking-[0.08em] whitespace-nowrap uppercase">{badge}</span>
+          )}
+          {profile.portrait ? (
+            <Image
+              src={profile.portrait}
+              alt={`${profile.name} portrait`}
+              width={profile.portraitWidth}
+              height={profile.portraitHeight}
+              loading="lazy"
+              sizes="(min-width: 1280px) 260px, (min-width: 1024px) 220px, (min-width: 640px) 45vw, 90vw"
+              className="h-[220px] w-full rounded-2xl object-contain lg:h-[180px] xl:h-[200px]"
+            />
+          ) : <PhotoPlaceholder caption={`${profile.name} portrait`} ratio="4 / 5" />}
         </div>
-      </Container>
-    </Section>
+      </Reveal>
+
+      <Reveal delay={0.06}>
+        <div className="mt-4">
+          <h2 id={headingId} className="text-2xl leading-tight tracking-tight lg:text-[22px] xl:text-2xl">{profile.name}</h2>
+          {profile.designation && !badge && <p className="text-accent mt-2 text-[13px] leading-snug font-semibold tracking-wide uppercase">{profile.designation}</p>}
+          {profile.company && <p className="text-cream mt-2 text-[15px] leading-snug font-medium">{profile.company}</p>}
+          {profile.professionalProfile && <p className="text-cream mt-2 text-[15px] leading-snug font-medium">{profile.professionalProfile}</p>}
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.12}>
+        <div className="border-line mt-4 border-t pt-4 text-base leading-relaxed lg:text-[15px]">
+          <p className="text-cream mb-1 font-semibold">Experience</p>
+          <p className="text-cream-dim"><HighlightedText text={profile.experience} /></p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.16}>
+        <div className="mt-4 text-base leading-relaxed lg:text-[15px]">
+          <p className="text-cream mb-1 font-semibold">Expertise</p>
+          <p className="text-cream-dim">{profile.expertise}</p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.2}>
+        {profile.credibility && <p className="text-cream-dim mt-4 text-base leading-relaxed lg:text-[15px]"><HighlightedText text={profile.credibility} /></p>}
+      </Reveal>
+    </article>
   );
 }

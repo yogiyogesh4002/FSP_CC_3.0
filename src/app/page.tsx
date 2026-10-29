@@ -4,12 +4,12 @@ import { StickyCta } from "@/components/StickyCta";
 import { Hero } from "@/components/sections/Hero";
 import { Challenge } from "@/components/sections/Challenge";
 import { About } from "@/components/sections/About";
-import { Experience } from "@/components/sections/Experience";
+import { speakerCards } from "@/config/site";
 import { Speaker } from "@/components/sections/Speaker";
+import { Container, Section } from "@/components/ui/Section";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { CommunityProof } from "@/components/sections/CommunityProof";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { Audience } from "@/components/sections/Audience";
 import { EventInfo } from "@/components/sections/EventInfo";
 import { Registration } from "@/components/sections/Registration";
 import { Faq } from "@/components/sections/Faq";
@@ -24,17 +24,17 @@ export default function Page() {
         <Hero />
         <Challenge />
         <About />
-        <Experience />
-        <Speaker />
         <SectionDivider />
-        <Speaker karunai />
+        <Section compact labelledBy="speaker-heading">
+          <Container size="wide">
+            <div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {speakerCards.map(profile => <Speaker key={profile.id} profile={profile} />)}
+            </div>
+          </Container>
+        </Section>
         <SectionDivider />
-        <Speaker panelLeader />
-        <SectionDivider />
-        <Speaker guest />
         <CommunityProof />
         <Testimonials />
-        <Audience />
         <EventInfo />
         <Registration />
         <Faq />

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
 import { about } from "@/config/site";
 import { Container, Eyebrow, Section } from "../ui/Section";
 import { Reveal } from "../ui/Reveal";
@@ -9,8 +8,8 @@ export function About() {
     <Section id="about" labelledBy="about-heading" className="bg-surface/40 overflow-hidden">
       <Container size="wide">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
-          {/* visual first on desktop, second on mobile for faster copy access */}
-          <Reveal className="order-2 lg:order-1" y={32}>
+          {/* Text comes first, with the photo alongside it on desktop. */}
+          <Reveal className="order-2" y={32}>
             <figure className="relative">
               <Image
                 src={about.photo.src}
@@ -21,9 +20,6 @@ export function About() {
                 sizes="(max-width: 1024px) 100vw, 600px"
                 className="border-line-strong w-full rounded-2xl border shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] sm:rounded-3xl"
               />
-              <figcaption className="text-cream-faint mt-4 text-sm">
-                {about.photo.caption}
-              </figcaption>
               <div
                 aria-hidden="true"
                 className="glow-accent pointer-events-none absolute -inset-10 -z-10 opacity-40"
@@ -31,7 +27,7 @@ export function About() {
             </figure>
           </Reveal>
 
-          <div className="order-1 lg:order-2">
+          <div className="order-1">
             <Reveal>
               <Eyebrow>{about.eyebrow}</Eyebrow>
             </Reveal>
@@ -58,21 +54,7 @@ export function About() {
               ))}
             </div>
 
-            <ul className="mt-9 grid gap-3 sm:grid-cols-2">
-              {about.pillars.map((pillar, i) => (
-                <Reveal as="li" key={pillar} delay={0.2 + i * 0.06}>
-                  <div className="border-line bg-surface-2/60 flex items-center gap-3 rounded-xl border px-4 py-3">
-                    <Check
-                      aria-hidden="true"
-                      className="text-accent size-4 shrink-0"
-                    />
-                    <span className="text-cream text-sm font-medium">
-                      {pillar}
-                    </span>
-                  </div>
-                </Reveal>
-              ))}
-            </ul>
+
           </div>
         </div>
       </Container>

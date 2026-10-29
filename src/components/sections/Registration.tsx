@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, type FormEvent } from "react";
 import { CheckCircle2, LockKeyhole } from "lucide-react";
@@ -86,22 +86,22 @@ export function Registration() {
         <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="border-line bg-surface/60 rounded-3xl border p-6 sm:p-9">
             <Eyebrow>Be part of the community</Eyebrow>
-            <h2 className="mt-5 text-[length:var(--text-headline)] leading-tight">Your next meaningful connection starts here.</h2>
+            <h2 className="mt-5 text-[26px] leading-tight sm:text-[34px]">Your next meaningful connection starts here.</h2>
             <ul className="mt-8 space-y-5">
-              {benefits.map(benefit => <li key={benefit} className="flex gap-3 type-body"><CheckCircle2 className="text-accent mt-1 size-5 shrink-0" aria-hidden="true" /><span>{benefit}</span></li>)}
+              {benefits.map(benefit => <li key={benefit} className="flex gap-3 text-[16px] leading-relaxed"><CheckCircle2 className="text-accent mt-1 size-5 shrink-0" aria-hidden="true" /><span>{benefit}</span></li>)}
             </ul>
-            <p className="text-cream-dim border-line mt-8 border-t pt-6 type-small">{event.dateLabelLong} · {event.locationLabel}</p>
+            <p className="text-cream-dim border-line mt-8 border-t pt-6 text-[14px] leading-relaxed">{event.dateLabelLong} · {event.locationLabel}</p>
           </div>
           <div className="border-line bg-surface-2/70 rounded-3xl border p-6 sm:p-9">
-            <h2 id="registration-heading" className="text-3xl sm:text-4xl">{price ? `Register for ${price}` : "Reserve your place"}</h2>
-            <p className="text-cream-dim mt-3 type-body">Enter your details to continue to secure payment.</p>
+            <h2 id="registration-heading" className="text-[26px] leading-tight sm:text-[30px]">{price ? <>Register for <span className="text-accent whitespace-nowrap">{price}</span></> : "Reserve your place"}</h2>
+            <p className="text-cream-dim mt-3 text-[16px] leading-relaxed">Enter your details to continue to secure payment.</p>
             <form onSubmit={submit} className="mt-7 space-y-5" aria-busy={busy}>
               <fieldset disabled={busy || paid || !!paymentId} className="space-y-5 disabled:opacity-70">
                 <legend className="sr-only">Your registration details</legend>
-                <label className="block text-sm font-semibold">Full name<input className={inputClass} name="name" autoComplete="name" placeholder="Enter your full name" maxLength={100} required /></label>
-                <label className="block text-sm font-semibold">Email address<input className={inputClass} name="email" type="email" autoComplete="email" placeholder="you@example.com" maxLength={150} required /></label>
-                <label className="block text-sm font-semibold">Mobile number<input className={inputClass} name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="Enter your mobile number" pattern="[+0-9 ()\-]{10,25}" maxLength={25} required /></label>
-                <label className="block text-sm font-semibold">City / Town / Village<input className={inputClass} name="city" autoComplete="address-level2" placeholder="Enter your location" maxLength={100} required /></label>
+                <label className="block text-[15px] font-semibold">Full name<input className={inputClass} name="name" autoComplete="name" placeholder="Enter your full name" maxLength={100} required /></label>
+                <label className="block text-[15px] font-semibold">Email address<input className={inputClass} name="email" type="email" autoComplete="email" placeholder="you@example.com" maxLength={150} required /></label>
+                <label className="block text-[15px] font-semibold">Mobile number<input className={inputClass} name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="Enter your mobile number" pattern="[+0-9 ()\-]{10,25}" maxLength={25} required /></label>
+                <label className="block text-[15px] font-semibold">City / Town / Village<input className={inputClass} name="city" autoComplete="address-level2" placeholder="Enter your location" maxLength={100} required /></label>
               </fieldset>
               <button type="submit" disabled={busy || paid || !!paymentId || !settings?.ready} className="bg-accent text-on-accent hover:bg-accent-bright min-h-14 w-full rounded-xl px-5 py-4 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50">{paid ? "Payment verified" : paymentId && !paid ? "Payment processing" : busy ? "Processing…" : price ? `Register & Pay ${price}` : "Register & Pay"}</button>
               {checkoutResult && !paid && <button type="button" disabled={busy} onClick={() => checkPayment(checkoutResult)} className="text-accent min-h-11 w-full rounded-xl border border-current px-4 py-3 font-semibold disabled:opacity-50">Check payment status</button>}
