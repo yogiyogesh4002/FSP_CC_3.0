@@ -49,7 +49,7 @@ export function Hero() {
           <Reveal delay={0.16} y={32} className="w-full">
             <div className="relative mx-auto mt-12 w-full max-w-5xl sm:mt-14">
               <HeroAccent />
-              <VideoEmbed />
+              <VideoEmbed preload />
             </div>
           </Reveal>
 

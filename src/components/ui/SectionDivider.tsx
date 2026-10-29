@@ -1,22 +1,20 @@
-const words = ["Practice", "Create", "Build", "Connect", "Grow", "Learn"];
+const words = Array.from({ length: 4 }, () => ["Learn", "Lead", "Impact"]).flat();
 
 export function SectionDivider() {
   return (
     <div className="border-line bg-ink-deep border-y py-3 sm:py-4">
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 sm:px-10 lg:flex-row lg:items-center lg:gap-6">
-        <p className="text-accent shrink-0 text-sm font-bold tracking-[0.16em] uppercase sm:text-base lg:border-r lg:border-line-strong lg:pr-6">
-          Learn. Lead. Impact.
-        </p>
-        <div className="section-ticker min-w-0 flex-1 overflow-hidden">
+      <p className="sr-only">Learn. Lead. Impact.</p>
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-10">
+        <div className="section-ticker overflow-hidden" aria-hidden="true">
           <div className="section-ticker-track flex w-max">
             {[0, 1].map((copy) => (
-              <ul key={copy} aria-hidden={copy === 1 ? true : undefined} className="flex shrink-0 items-center" aria-label={copy === 0 ? "Practice, create, build, connect, grow, learn" : undefined}>
-                {words.map((word) => (
-                  <li key={word} className="flex shrink-0 items-center gap-6 pr-6 sm:gap-10 sm:pr-10">
-                    <span className="text-cream text-xl leading-none font-black tracking-[-0.04em] uppercase sm:text-2xl xl:text-3xl">
+              <ul key={copy} aria-hidden={copy === 1 ? true : undefined} className="flex shrink-0 items-center">
+                {words.map((word, index) => (
+                  <li key={index} className="flex shrink-0 items-center gap-6 pr-6 sm:gap-10 sm:pr-10">
+                    <span className="text-[#F5F5F7] text-2xl leading-none font-normal tracking-normal uppercase sm:text-3xl xl:text-[34px]" style={{ fontFamily: 'Impact, Haettenschweiler, "Arial Narrow", sans-serif' }}>
                       {word}
                     </span>
-                    <span aria-hidden="true" className="text-accent text-lg">✦</span>
+                    <span className="text-accent text-lg">&#10022;</span>
                   </li>
                 ))}
               </ul>

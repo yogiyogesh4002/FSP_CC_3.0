@@ -51,7 +51,7 @@ export function Section({
 /** Small uppercase section label with a leading accent rule. */
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-cream-dim flex items-center gap-3 text-xs font-semibold tracking-[0.1em] uppercase">
+    <p className="text-cream-dim flex items-center gap-3 type-eyebrow font-semibold tracking-[0.1em] uppercase">
       <span aria-hidden="true" className="bg-accent h-px w-8" />
       {children}
     </p>

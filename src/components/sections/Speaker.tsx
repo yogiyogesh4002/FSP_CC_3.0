@@ -14,13 +14,14 @@ export function Speaker({ panelLeader = false, karunai = false, guest = false }:
   const profile = guest ? priyaRamasamy : karunai ? karunaiPrakash : panelDiscussionLeader;
   const sectionId = guest ? "priya-ramasamy" : karunai ? "karunai-prakash" : panelLeader ? "panel-discussion-leader" : "speaker";
   const headingId = `${sectionId}-heading`;
+  const specialties = "team building, employee engagement, outbound leadership training, and Train the Trainer programs";
   const hasPortrait = speaker.portrait !== null;
   const hasSessionTitle = !panelLeader && !karunai && !guest && specialGuest.sessionTitle !== TODO_CONFIRM;
 
   return (
     <Section id={sectionId} labelledBy={headingId} className="bg-surface/40 overflow-hidden">
       <Container size="wide">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-20">
+        <div className={`grid gap-12 ${karunai || panelLeader || guest ? "lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-14" : "lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-20"}`}>
           <Reveal y={32}>
             <div className="relative">
               {hasPortrait ? (
@@ -33,7 +34,7 @@ export function Speaker({ panelLeader = false, karunai = false, guest = false }:
                   sizes="(max-width: 1024px) 100vw, 420px"
                   /* natural aspect ratio — no object-cover, so nothing in the
                      frame gets cropped away */
-                  className="border-line-strong mx-auto w-full max-w-[380px] rounded-2xl border shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] sm:rounded-3xl"
+                  className={`border-line-strong mx-auto h-auto w-full ${karunai || panelLeader || guest ? "max-w-[340px] lg:max-w-[440px]" : "max-w-[380px]"} rounded-2xl border shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] sm:rounded-3xl`}
                 />
               ) : (
                 <PhotoPlaceholder
@@ -50,13 +51,13 @@ export function Speaker({ panelLeader = false, karunai = false, guest = false }:
 
           <div>
             <Reveal>
-              <Eyebrow>{guest ? "Guest Speaker" : karunai ? "Guest Speaker" : panelLeader ? "Panel Discussion Leader" : "Special Guest"}</Eyebrow>
+              <Eyebrow>{guest ? "Guest Speaker" : karunai ? "Founder" : panelLeader ? "Panel Discussion Leader" : "Special Guest"}</Eyebrow>
             </Reveal>
 
             <Reveal delay={0.06}>
               <h2
                 id={headingId}
-                className="mt-6 text-[length:var(--text-headline)] leading-[var(--text-headline--line-height)] font-semibold tracking-[var(--text-headline--letter-spacing)]"
+                className="mt-6 type-speaker-name leading-[var(--text-headline--line-height)] font-semibold tracking-[var(--text-headline--letter-spacing)]"
               >
                 {speaker.name}
               </h2>
@@ -103,7 +104,13 @@ export function Speaker({ panelLeader = false, karunai = false, guest = false }:
                 {profile.biography.map((paragraph, index) => (
                   <Reveal key={paragraph} delay={0.2 + index * 0.04}>
                     <p className="text-cream-dim mt-5 max-w-xl type-body">
-                      {paragraph}
+                      {karunai && paragraph.includes(specialties) ? (
+                        <>
+                          <span className="text-cream mb-2 block text-sm font-semibold tracking-wide">Core Expertise</span>
+                          <strong className="text-accent font-semibold">Team Building, Employee Engagement, Outbound Leadership Training, and Train the Trainer Programs</strong>
+                          {paragraph.split(specialties)[1]}
+                        </>
+                      ) : paragraph}
                     </p>
                   </Reveal>
                 ))}

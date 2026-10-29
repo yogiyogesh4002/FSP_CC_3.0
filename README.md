@@ -11,12 +11,12 @@ gathering for trainers, facilitators, coaches and L&D professionals.
 
 | Concern    | Choice                                        |
 | ---------- | --------------------------------------------- |
-| Framework  | Next.js 16 (App Router, static export-ready)   |
+| Framework  | Next.js 16 (App Router, Node server required)   |
 | Language   | TypeScript                                     |
 | Styling    | Tailwind CSS v4 (CSS-first `@theme` tokens)    |
 | Animation  | Motion for React                               |
 | Icons      | Lucide React                                   |
-| Fonts      | Geist Sans + Instrument Serif (`next/font`)    |
+| Fonts      | Inter + Source Sans 3 (local `next/font`)    |
 
 ### Palette
 
@@ -49,8 +49,9 @@ the amber figure, star, divider and "Catalyst" exactly as drawn, with the alpha
 channel preserved so edges stay clean. It scores **16.8:1** on the canvas; the
 original navy would have scored 1.16:1 and been invisible.
 
-The page renders as **fully static HTML** — no client-side data fetching, no
-runtime dependencies.
+The landing page is prerendered. Registration and payment verification use server-side API routes, so deployment requires a Node-capable Next.js host.
+
+See [PAYMENT-SETUP.md](./PAYMENT-SETUP.md) for Razorpay and Google Sheets configuration.
 
 ---
 
@@ -59,7 +60,7 @@ runtime dependencies.
 ```bash
 npm install          # install dependencies
 
-npm run dev          # dev server  → http://localhost:3000
+npm run dev          # dev server  → http://localhost:3001
 npm run build        # production build
 npm run start        # serve the production build
 npm run lint         # ESLint
@@ -72,7 +73,7 @@ Run `npm run audit` or `npm run verify` while the site is running. Both commands
 
 The suite checks installed Windows Edge and Chrome across seven screen widths, plus reduced motion, JavaScript-disabled content visibility, and enlarged text. It exercises FAQ mouse/keyboard controls and video activation, and checks layout overflow, image loading, and section links. Reports and screenshots are saved in `artifacts/audit/`.
 
-Use `VERIFY_URL` to target another port; the default is `http://localhost:3000`. See [WEBSITE-AUDIT.md](./WEBSITE-AUDIT.md) for production verification commands and remaining launch requirements.
+Use `VERIFY_URL` to target another port; the default is `http://localhost:3001`. See [WEBSITE-AUDIT.md](./WEBSITE-AUDIT.md) for production verification commands and remaining launch requirements.
 
 ## Deploying
 
@@ -152,24 +153,9 @@ seo           page title, description, Open Graph
 Everything below is **deliberately unfilled**. Nothing has been invented to
 cover a gap. Search the codebase for `TODO_CONFIRM` to find them all.
 
-### 1. Registration destination — **blocks launch**
+### 1. Registration payments
 
-No registration URL was supplied. Every CTA currently scrolls to the Event
-Information section instead, and shows the caption *"Registration link to be
-confirmed."*
-
-To wire it up, in `src/config/site.ts`:
-
-```ts
-export const registration = {
-  url: "https://your-google-form-or-payment-link",
-  isPlaceholder: false,        // ← flip this
-  ...
-};
-```
-
-That single change switches all 6 CTAs over at once. No payment or success
-state is simulated anywhere.
+The registration form is implemented at `#registration`, with a confirmed fee of INR 2,499. Checkout remains disabled until Razorpay and Google Sheets settings are configured. See [PAYMENT-SETUP.md](./PAYMENT-SETUP.md).
 
 ### 2. Event photography
 

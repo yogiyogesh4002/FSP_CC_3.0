@@ -8,8 +8,10 @@ import { Experience } from "@/components/sections/Experience";
 import { Speaker } from "@/components/sections/Speaker";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { CommunityProof } from "@/components/sections/CommunityProof";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { Audience } from "@/components/sections/Audience";
 import { EventInfo } from "@/components/sections/EventInfo";
+import { Registration } from "@/components/sections/Registration";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 
@@ -31,8 +33,10 @@ export default function Page() {
         <SectionDivider />
         <Speaker guest />
         <CommunityProof />
+        <Testimonials />
         <Audience />
         <EventInfo />
+        <Registration />
         <Faq />
         <FinalCta />
       </main>

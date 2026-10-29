@@ -67,11 +67,11 @@ export const event = {
   endTime: TODO_CONFIRM,
 
   price: {
-    /** Member price. TODO_CONFIRM — subject to confirmation of current pricing and eligibility. */
-    memberAmount: 1999,
-    memberLabel: "₹1,999",
+    /** Registration price confirmed by the organiser. */
+    memberAmount: 2499,
+    memberLabel: "₹2,499",
     currency: "INR",
-    note: "Member price, subject to confirmation of current pricing and eligibility.",
+    note: "Registration fee per person.",
   },
 } as const;
 
@@ -99,6 +99,76 @@ export const video = {
   label: "Watch the film",
 } as const;
 
+/* ------------------------------------------------------- testimonials ---- */
+/**
+ * Participant testimonial videos.
+ *
+ * TODO_CONFIRM — no testimonial footage has been supplied yet. Each entry
+ * reserves a slot on the page; while `id` is null the card renders a labelled
+ * placeholder rather than inventing a participant, a quote or a face.
+ *
+ * To publish one:
+ *   1. set `id` to the YouTube video id (the part after `v=`)
+ *   2. fill `name` / `role` / `quote` with the real person's details, with
+ *      their permission — leave a field null and it simply isn't rendered
+ *   3. optional: save a poster frame locally and point `poster` at it, so the
+ *      card makes no request to YouTube before someone clicks play:
+ *        curl -s "https://i.ytimg.com/vi/<ID>/maxresdefault.jpg" \
+ *          -o public/video/testimonial-1.jpg
+ *      With no poster the card shows a branded play panel and still works.
+ */
+export type Testimonial = {
+  /** Label used for the placeholder and the slot's accessible name. */
+  slot: string;
+  /**
+   * Self-hosted file under /public, e.g. "/videos/testimonial-1.mp4".
+   * Set this OR `id` — a local file wins and keeps YouTube out of it.
+   */
+  src: string | null;
+  /** YouTube video id. Null until real footage is supplied. */
+  id: string | null;
+  name: string | null;
+  role: string | null;
+  quote: string | null;
+  /** Local poster path, e.g. "/videos/testimonial-1.jpg". */
+  poster: string | null;
+  /**
+   * CSS aspect-ratio of the clip. Testimonials are filmed on a phone and
+   * held vertically, so the default is 9 / 16 — set "16 / 9" for a landscape
+   * clip, otherwise it letterboxes inside the card.
+   */
+  ratio?: string;
+};
+
+export const testimonials: readonly Testimonial[] = [
+  {
+    slot: "Testimonial 1",
+    src: "/videos/testimonial-1.mp4",
+    id: null,
+    /* TODO_CONFIRM — who is speaking in this clip, and their role. Left null
+       so the card shows the film without attributing it to anyone. */
+    name: null,
+    role: null,
+    quote: null,
+    /* Still frame grabbed from the clip itself at 2s — see the note above
+       the type for how these are produced. */
+    poster: "/videos/testimonial-1.jpg",
+    ratio: "9 / 16",
+  },
+  {
+    slot: "Testimonial 2",
+    src: "/videos/testimonial-2.mp4",
+    id: null,
+    /* TODO_CONFIRM — who is speaking in this clip, and their role. */
+    name: null,
+    role: null,
+    quote: null,
+    poster: "/videos/testimonial-2.jpg",
+    ratio: "9 / 16",
+  },
+  { slot: "Testimonial 3", src: null, id: null, name: null, role: null, quote: null, poster: null },
+];
+
 /* ------------------------------------------------------- registration ---- */
 /**
  * TODO_CONFIRM — no registration destination has been supplied.
@@ -110,9 +180,9 @@ export const video = {
  */
 export const registration = {
   url: null as string | null,
-  isPlaceholder: true,
+  isPlaceholder: false,
   /** Where CTAs point while the real URL is missing. */
-  fallbackAnchor: "#event-information",
+  fallbackAnchor: "#registration",
   ctaPrimary: "Register Now",
   ctaFinal: "Register for Catalyst Connect 3.0",
   ctaSecondary: "Discover the Experience",
@@ -157,9 +227,9 @@ export const priyaRamasamy = {
   name: "Priya Ramasamy",
   role: "Emcee | Soft Skills Trainer | Public Speaking Coach",
   organisation: null,
-  portrait: "/speakers/priya-ramasamy.jpeg" as string | null,
-  portraitWidth: 853,
-  portraitHeight: 1280,
+  portrait: "/speakers/priya-ramasamy-office.png" as string | null,
+  portraitWidth: 1086,
+  portraitHeight: 1448,
   highlights: [
     { value: "10+", label: "Years in Public Speaking" },
     { value: "250+", label: "Events Hosted" },
@@ -186,11 +256,9 @@ export const karunaiPrakash = {
     { value: "3", label: "International Programs" },
   ],
   biography: [
-    "Karunai Prakash is a mechanical engineer by education and a professional trainer by passion. He is a Certified Professional Trainer in the Design and Facilitation of Experiential Learning from IIPE, Canada, and an NLP Master Practitioner.",
-    "With over 10 years of experience, he specializes in team building, employee engagement, outbound leadership training, and Train the Trainer programs. He has conducted more than 600 team-building OBT programs across India and facilitated three international programs.",
-    "Known for his dynamic sessions combining humour, interactive activities, and real-world case studies, Karunai helps organizations strengthen collaboration, leadership, and team performance.",
-    "He previously worked at Hindustan Coca-Cola Beverages Pvt. Ltd. and gained training experience with Live Life Education.",
-    "His philosophy is simple: true leadership means empowering others, fostering collaboration, and inspiring teams to reach their full potential.",
+    "A mechanical engineer turned professional trainer, Karunai Prakash is certified in experiential learning by IIPE, Canada, and is an NLP Master Practitioner.",
+    "He specializes in team building, employee engagement, outbound leadership training, and Train the Trainer programs. His sessions blend humour, interactive activities, and real-world examples to build collaboration and team performance.",
+    "With experience at Hindustan Coca-Cola Beverages and Live Life Education, he believes leadership begins with empowering others to reach their potential.",
   ],
 } as const;
 
@@ -399,13 +467,13 @@ export const faqs = [
   },
   {
     q: "What is the registration fee?",
-    a: "The member price is ₹1,999. This is subject to confirmation of current pricing and eligibility — please check the latest details with the FSP team before registering.",
-    needsConfirmation: true,
+    a: "The registration fee is ₹2,499 per person. Complete the registration form and continue to Razorpay to pay securely.",
+    needsConfirmation: false,
   },
   {
     q: "How do I register?",
-    a: "Registration for Catalyst Connect 3.0 is opening shortly. The registration link will be published on this page and shared with the FSP community as soon as it is live.",
-    needsConfirmation: true,
+    a: "Complete the registration form on this page. When online registration opens, continue to Razorpay to pay securely and confirm your place.",
+    needsConfirmation: false,
   },
   {
     q: "Is the event open to non-FSP members?",

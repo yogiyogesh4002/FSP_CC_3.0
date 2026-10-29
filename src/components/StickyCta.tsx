@@ -18,13 +18,13 @@ export function StickyCta() {
     const onScroll = () => {
       const past = window.scrollY > window.innerHeight * 0.85;
 
-      // suppress while the closing CTA section is on screen
-      const finalCta = document.getElementById("register");
-      let overlapping = false;
-      if (finalCta) {
-        const rect = finalCta.getBoundingClientRect();
-        overlapping = rect.top < window.innerHeight && rect.bottom > 0;
-      }
+      // Keep the payment form and final CTA clear on small screens.
+      const overlapping = ["register", "registration"].some((id) => {
+        const section = document.getElementById(id);
+        if (!section) return false;
+        const rect = section.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+      });
 
       setVisible(past && !overlapping);
     };

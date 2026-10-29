@@ -36,8 +36,8 @@
   --color-on-accent: #0f1940;
 
   /* type */
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
 
   /* Keep supporting text readable across mobile and desktop. */
   --text-xs: 1rem;
@@ -46,13 +46,13 @@
   --text-sm--line-height: 1.6;
 
   /* editorial display scale (fluid) */
-  --text-display: clamp(2.5rem, 1.2rem + 4.8vw, 5.75rem);
-  --text-display--line-height: 1.06;
-  --text-display--letter-spacing: -0.04em;
+  --text-display: clamp(2.375rem, 1.4rem + 4vw, 4.75rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.025em;
 
-  --text-headline: clamp(1.875rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-headline: clamp(1.875rem, 1.2rem + 2.5vw, 3rem);
   --text-headline--line-height: 1.12;
-  --text-headline--letter-spacing: -0.035em;
+  --text-headline--letter-spacing: -0.02em;
 
   --text-title: clamp(1.5rem, 2.6vw, 2.25rem);
   --text-title--line-height: 1.15;
@@ -96,6 +96,8 @@ body {
 h1,
 h2,
 h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
   text-wrap: balance;
 }
 
@@ -106,7 +108,7 @@ p {
 /* A shared hierarchy for every section and viewport. */
 .type-body {
   font-size: clamp(1rem, .94rem + .2vw, 1.125rem);
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 .type-small {
@@ -115,7 +117,8 @@ p {
 }
 
 .type-card-title {
-  font-size: clamp(1.0625rem, .98rem + .3vw, 1.25rem);
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 1.1rem + .4vw, 1.5rem);
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -.015em;
@@ -123,13 +126,14 @@ p {
 
 .type-role {
   font-size: clamp(1rem, .95rem + .2vw, 1.125rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.5;
 }
 
 .type-stat {
-  font-size: clamp(1.875rem, 1.35rem + 2vw, 3.25rem);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 1.5rem + 2vw, 3.5rem);
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: -.04em;
   font-variant-numeric: tabular-nums;
@@ -143,13 +147,16 @@ p {
   min-width: 0;
 }
 
+.type-eyebrow { font-size: .8125rem; line-height: 1.5; }
+.type-speaker-name { font-size: clamp(1.875rem, 1.25rem + 2vw, 2.75rem); }
+
 /* ----------------------------------------------------------- utilities --- */
 
-/* editorial italic emphasis inside a headline */
+/* Consistent sans-serif emphasis inside headings. */
 .accent-serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--font-heading);
+  font-style: normal;
+  font-weight: 700;
   letter-spacing: -0.015em;
 }
 

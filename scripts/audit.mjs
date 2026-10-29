@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import assert from "node:assert/strict";
 
-const url = process.env.VERIFY_URL || "http://localhost:3000";
+const url = process.env.VERIFY_URL || "http://localhost:3001";
 const output = "artifacts/audit";
 const reports = [];
 const failures = [];

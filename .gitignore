@@ -25,6 +25,9 @@
 # production
 /build
 
+# source video masters (copies live in /public/videos for serving)
+/videos
+
 # misc
 .DS_Store
 *.pem

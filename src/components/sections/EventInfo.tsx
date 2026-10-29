@@ -38,7 +38,7 @@ export function EventInfo() {
     },
     {
       icon: Ticket,
-      label: "Member price",
+      label: "Registration fee",
       value: event.price.memberLabel,
       time: null,
       note: event.price.note,

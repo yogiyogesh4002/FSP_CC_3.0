@@ -3,19 +3,17 @@ import localFont from "next/font/local";
 import { brand, event, seo } from "@/config/site";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/geist-latin.woff2",
+const inter = localFont({
+  src: "./fonts/inter-latin.woff2",
   weight: "100 900",
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const instrumentSerif = localFont({
-  src: [
-    { path: "./fonts/instrument-serif-latin.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/instrument-serif-latin-italic.woff2", weight: "400", style: "italic" },
-  ],
-  variable: "--font-instrument-serif",
+const sourceSans = localFont({
+  src: "./fonts/source-sans-3-latin.woff2",
+  weight: "200 900",
+  variable: "--font-source-sans",
   display: "swap",
 });
 
@@ -91,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${geistSans.variable} ${instrumentSerif.variable} h-full antialiased`}
+      className={`${inter.variable} ${sourceSans.variable} h-full antialiased`}
     >
       <body className="bg-ink text-cream flex min-h-full flex-col">
         <a
