@@ -150,7 +150,7 @@ export type Testimonial = {
 export const testimonials: readonly Testimonial[] = [
   {
     slot: "Testimonial 1",
-    src: "/videos/testimonial-1.mp4",
+    src: null,
     id: null,
     /* TODO_CONFIRM — who is speaking in this clip, and their role. Left null
        so the card shows the film without attributing it to anyone. */

@@ -1,0 +1,7 @@
+node_modules
+.next
+.next-audit
+artifacts
+videos
+audit-*.png
+public/videos/testimonial-1.mp4
