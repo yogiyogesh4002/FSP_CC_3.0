@@ -45,11 +45,7 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-3">
-          {/* wrapper owns the responsive display so it cannot collide with the
-              button's own `inline-flex` base class */}
-          <span className="hidden sm:block">
-            <RegisterCta size="md" />
-          </span>
+          <RegisterCta size="md" />
         </div>
       </div>
 

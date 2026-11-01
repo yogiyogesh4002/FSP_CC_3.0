@@ -1,4 +1,4 @@
-﻿import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 
 export type Attendee = { name: string; email: string; phone: string; city: string };
 type Payment = { id: string; order_id: string; amount: number; currency: string; status: string; captured?: boolean; created_at: number };
@@ -15,9 +15,7 @@ function required(name: string) {
 }
 export function paymentSettings() {
   const amount = Number(process.env.PAYMENT_AMOUNT_PAISE);
-  let sheetReady = false;
-  try { const endpoint = new URL(process.env.GOOGLE_SHEETS_WEB_APP_URL || ""); sheetReady = endpoint.protocol === "https:" && endpoint.hostname === "script.google.com" && endpoint.pathname.endsWith("/exec"); } catch {}
-  const ready = sheetReady && ["RAZORPAY_KEY_ID", "RAZORPAY_KEY_SECRET", "RAZORPAY_WEBHOOK_SECRET", "GOOGLE_SHEETS_WEB_APP_URL", "GOOGLE_SHEETS_SHARED_SECRET"].every(k => !!process.env[k]?.trim()) && Number.isSafeInteger(amount) && amount > 0;
+  const ready = ["RAZORPAY_KEY_ID", "RAZORPAY_KEY_SECRET"].every(k => !!process.env[k]?.trim()) && Number.isSafeInteger(amount) && amount > 0;
   return { ready, amount: Number.isSafeInteger(amount) && amount > 0 ? amount : null, currency: "INR" };
 }
 export function parseAttendee(input: unknown): Attendee {

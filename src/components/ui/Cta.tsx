@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { registration } from "@/config/site";
 
@@ -65,13 +64,13 @@ export function RegisterCta({
       />
     </a>
   ) : (
-    <Link href={href} className={classes}>
+    <a href={href} className={classes}>
       {text}
       <ArrowRight
         aria-hidden="true"
         className="size-4 transition-transform duration-300 group-hover:translate-x-1"
       />
-    </Link>
+    </a>
   );
 
   if (!showPlaceholderNote || !registration.isPlaceholder) return button;
@@ -99,11 +98,11 @@ export function AnchorCta({
   className?: string;
 }) {
   return (
-    <Link
+    <a
       href={href}
       className={`${base} ${variants.secondary} ${sizes[size]} ${className}`}
     >
       {label}
-    </Link>
+    </a>
   );
 }

@@ -1,4 +1,4 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHmac } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -38,6 +38,18 @@ await test('registration payment integration', async t => {
       delete process.env.RAZORPAY_KEY_SECRET;
       assert.equal(paymentSettings().ready, false);
       process.env.RAZORPAY_KEY_SECRET = env.RAZORPAY_KEY_SECRET;
+    });
+    await t.test('checkout works before Sheets and webhook configuration are added', async () => {
+      const deferred = ['GOOGLE_SHEETS_WEB_APP_URL', 'GOOGLE_SHEETS_SHARED_SECRET', 'RAZORPAY_WEBHOOK_SECRET'];
+      try {
+        for (const key of deferred) delete process.env[key];
+        assert.equal(paymentSettings().ready, true);
+        const result = await createOrder(attendee);
+        assert.equal(result.amount, 249900);
+        assert.equal(result.orderId, 'order_Test123');
+      } finally {
+        for (const key of deferred) process.env[key] = env[key];
+      }
     });
     await t.test('uses server fee and signed attendee notes; ignores client amount', async () => {
       const result = await createOrder({ ...attendee, amount: 1 });

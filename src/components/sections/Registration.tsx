@@ -13,6 +13,7 @@ type CheckoutOptions = {
 };
 type Checkout = { open: () => void; on: (event: string, callback: () => void) => void };
 declare global { interface Window { Razorpay?: new (options: CheckoutOptions) => Checkout } }
+const registrationStorageKey = "fsp-catalyst-connect-3-registration";
 let checkoutScript: Promise<void> | undefined;
 function loadCheckout() {
   if (window.Razorpay) return Promise.resolve();
@@ -43,6 +44,19 @@ export function Registration() {
   const [checkoutResult, setCheckoutResult] = useState<PaymentResult | null>(null);
   useEffect(() => {
     let active = true;
+    const savedRegistration = window.localStorage.getItem(registrationStorageKey);
+    if (savedRegistration) {
+      try {
+        const saved = JSON.parse(savedRegistration) as { paymentId?: unknown };
+        if (typeof saved.paymentId === "string" && saved.paymentId) {
+          setPaymentId(saved.paymentId);
+          setPaid(true);
+          setMessage("Your registration is already confirmed on this device. Thank you for registering!");
+        }
+      } catch {
+        window.localStorage.removeItem(registrationStorageKey);
+      }
+    }
     fetch("/api/payments/order", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(data => { if (active) setSettings(data); }).catch(() => { if (active) setSettings({ ready: false, amount: null }); });
     return () => { active = false; };
   }, []);
@@ -53,7 +67,11 @@ export function Registration() {
     try {
       const verified = await post("/api/payments/verify", result);
       setPaymentId(verified.paymentId);
-      if (verified.status === "paid") { setPaid(true); setMessage("Payment verified. Thank you for registering! Your payment confirmation is being recorded."); }
+      if (verified.status === "paid") {
+        window.localStorage.setItem(registrationStorageKey, JSON.stringify({ paymentId: verified.paymentId }));
+        setPaid(true);
+        setMessage("Payment verified. Thank you for registering! Keep your payment reference for your records.");
+      }
       else setMessage("Your payment is still processing. Please do not pay again. You can check its status below.");
     } catch { setPaymentId(result.razorpay_payment_id); setMessage("We could not check your payment status yet. If money was debited, do not pay again. Check the status below or contact the organiser with your payment reference."); }
     finally { setBusy(false); }
@@ -75,7 +93,10 @@ export function Registration() {
         modal: { ondismiss: () => { setBusy(false); setMessage("Checkout closed. Your registration has not been confirmed. You can try again."); } },
         handler: checkPayment,
       });
-      checkout.on("payment.failed", () => setMessage("Payment was unsuccessful. You can retry in checkout or close it and try again."));
+      checkout.on("payment.failed", () => {
+        setBusy(false);
+        setMessage("Payment was unsuccessful. You can retry in checkout or close it and try again.");
+      });
       checkout.open();
     } catch (error) { setMessage(error instanceof Error ? error.message : "Unable to open checkout. Please try again."); setBusy(false); }
   }
@@ -103,7 +124,7 @@ export function Registration() {
                 <label className="block text-[15px] font-semibold">Mobile number<input className={inputClass} name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="Enter your mobile number" pattern="[+0-9 ()\-]{10,25}" maxLength={25} required /></label>
                 <label className="block text-[15px] font-semibold">City / Town / Village<input className={inputClass} name="city" autoComplete="address-level2" placeholder="Enter your location" maxLength={100} required /></label>
               </fieldset>
-              <button type="submit" disabled={busy || paid || !!paymentId || !settings?.ready} className="bg-accent text-on-accent hover:bg-accent-bright min-h-14 w-full rounded-xl px-5 py-4 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50">{paid ? "Payment verified" : paymentId && !paid ? "Payment processing" : busy ? "Processing…" : price ? `Register & Pay ${price}` : "Register & Pay"}</button>
+              <button type="submit" disabled={busy || paid || !!paymentId || !settings?.ready} className="bg-accent text-on-accent hover:bg-accent-bright min-h-14 w-full rounded-xl px-5 py-4 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50">{paid ? "Already registered" : paymentId && !paid ? "Payment processing" : busy ? "Processing…" : price ? `Register & Pay ${price}` : "Register & Pay"}</button>
               {checkoutResult && !paid && <button type="button" disabled={busy} onClick={() => checkPayment(checkoutResult)} className="text-accent min-h-11 w-full rounded-xl border border-current px-4 py-3 font-semibold disabled:opacity-50">Check payment status</button>}
               {settings && !settings.ready && <p className="text-cream-dim text-sm" role="status">Online registration will open soon. Payment is currently unavailable.</p>}
               <p className="text-cream-faint flex items-center justify-center gap-2 text-sm"><LockKeyhole className="size-4 shrink-0" aria-hidden="true" />Payments processed securely by Razorpay</p>

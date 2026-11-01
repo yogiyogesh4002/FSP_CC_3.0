@@ -1,4 +1,4 @@
-﻿# Registration, Razorpay and Google Sheets setup
+# Registration, Razorpay and Google Sheets setup
 
 The form is implemented at http://localhost:3001/#registration. The confirmed fee is INR 2,499 (249900 paise).
 
@@ -49,7 +49,7 @@ GOOGLE_SHEETS_SHARED_SECRET=the_same_secret_as_script_properties
 
 Start with **Test Mode** in Razorpay. Generate keys from your account's API-key settings. The webhook secret is a separate secret you choose when configuring the webhook.
 
-The form displays the configured amount, and remains unavailable until all required settings are present. Restart `npm run dev` after changing environment settings. No Razorpay or Google credentials have been added to this repository.
+The form displays the configured amount and enables checkout once RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET and a valid PAYMENT_AMOUNT_PAISE are present. Google Sheets and the webhook can be configured later. Until then, payment verification still checks Razorpay, and attendee details remain in the Razorpay order notes. Earlier payments are not automatically backfilled into Sheets; reconcile them from Razorpay after setup. Webhook deliveries fail and can be retried while Sheets configuration is missing. Restart `npm run dev` after changing environment settings. No Razorpay or Google credentials have been added to this repository.
 
 ## 3. Configure the Razorpay webhook
 
